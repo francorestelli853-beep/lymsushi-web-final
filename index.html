@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -1880,7 +1880,7 @@
                     <a href="#menu" class="btn-outline">Ver Menú</a>
                 </div>
                 <div class="hero-discount-text">
-                    10% de descuento en efectivo o transferencia
+                    20% de descuento en efectivo
                 </div>
             </div>
         </div>
@@ -2013,7 +2013,7 @@
                     <h4 style="margin-top:20px;">Contacto</h4>
                     <a href="https://wa.me/5491123135966" target="_blank">WhatsApp Maschwitz: 11-2313-5966</a><br>
                     <a href="https://wa.me/5491159274543" target="_blank">WhatsApp Loma Verde: 11-5927-4543</a>
-                    <p style="margin-top:8px;color:#6fcf97;">10% descuento en efectivo o transferencia</p>
+                    <p style="margin-top:8px;color:#6fcf97;">20% descuento pagando en efectivo</p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -2142,13 +2142,10 @@
                 <div class="form-group">
                     <label>Método de Pago</label>
                     <select id="payment-method" class="form-control" onchange="updateTotals()">
+                        <option value="efectivo">Efectivo (20% OFF) 🔥</option>
+                        <option value="transferencia">Transferencia (sin descuento)</option>
+                        <option value="debito">Débito (Visa / Mastercard / Amex / Cabal)</option>
                         <option value="mercadopago">Mercado Pago</option>
-                        <option value="visa">Visa</option>
-                        <option value="mastercard">Mastercard</option>
-                        <option value="amex">American Express</option>
-                        <option value="cabal">Cabal</option>
-                        <option value="efectivo">Efectivo (+10% OFF) 🔥</option>
-                        <option value="transferencia">Transferencia (+10% OFF) 🔥</option>
                     </select>
                 </div>
 
@@ -2494,20 +2491,21 @@
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const paymentMethod = document.getElementById('payment-method').value;
 
-            let applyDiscount = (paymentMethod === 'efectivo' || paymentMethod === 'transferencia');
+            let applyDiscount = (paymentMethod === 'efectivo');
             let discountAmount = 0;
             let finalTotal = subtotal;
 
             document.getElementById('cart-subtotal').textContent = formatPrice(subtotal);
 
-            // Update Bar total (without discount initially to not confuse, or update based on selection)
+            // Update Bar total
             document.getElementById('cart-total-bar').textContent = formatPrice(subtotal);
 
             const discountRow = document.getElementById('cart-discount-row');
             if (applyDiscount && subtotal > 0) {
-                discountAmount = subtotal * 0.10;
+                discountAmount = subtotal * 0.20;
                 finalTotal = subtotal - discountAmount;
                 discountRow.style.display = 'flex';
+                document.getElementById('cart-discount-row').querySelector('span:first-child').textContent = 'Descuento (20%):';
                 document.getElementById('cart-discount-amount').textContent = `-${formatPrice(discountAmount)}`;
             } else {
                 discountRow.style.display = 'none';
@@ -2617,11 +2615,11 @@
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             let finalTotal = subtotal;
 
-            if (method.value === 'efectivo' || method.value === 'transferencia') {
-                const discount = subtotal * 0.10;
+            if (method.value === 'efectivo') {
+                const discount = subtotal * 0.20;
                 finalTotal -= discount;
                 msg += `*Subtotal:* ${formatPrice(subtotal)}\n`;
-                msg += `*Descuento 10%: * -${formatPrice(discount)}\n`;
+                msg += `*Descuento 20%:* -${formatPrice(discount)}\n`;
             }
 
             msg += `\n*TOTAL A PAGAR: ${formatPrice(finalTotal)}*\n`;
